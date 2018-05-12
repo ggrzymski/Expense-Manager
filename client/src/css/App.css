@@ -1,0 +1,14 @@
+.button-col {
+  width: 100px;
+  text-align: center;
+}
+
+.desc-col {
+  width: 300px;
+  text-align: left;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

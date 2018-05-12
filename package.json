@@ -1,0 +1,27 @@
+{
+  "name": "expensemanager",
+  "version": "0.1.0",
+  "scripts": {
+    "client": "cd client && npm start",
+    "server": "nodemon ./server/server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "axios": "^0.18.0",
+    "babel-cli": "^6.26.0",
+    "body-parser": "^1.18.2",
+    "concurrently": "^3.5.1",
+    "mongoose": "^5.0.17",
+    "nodemon": "^1.17.4",
+    "react": "^16.3.2",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.3.2",
+    "react-modal": "^3.4.4",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "redux": "^4.0.0"
+  }
+}

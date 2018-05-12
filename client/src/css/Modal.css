@@ -1,0 +1,33 @@
+.Modal {
+    position: relative;
+    top: 250px;
+    left: 400px;
+    right: 20px;
+    bottom: 20px;
+    background-color: #F5F5F5;
+    width:500px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    padding: 20px;
+  }
+
+  .closebtn {
+    float: left;
+  }
+
+  label{
+    display:inline-block;
+    width:200px;
+    margin-right:30px;
+    text-align:right;
+    }
+
+  fieldset{
+    border:none;
+    margin:0px auto;
+    }
+
+    .button-center {
+      text-align: center;
+      line-height: 4
+     }
