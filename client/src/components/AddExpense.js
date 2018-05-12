@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, Glyphicon } from 'react-bootstrap';
-import { Modal } from 'react-modal';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import AddExpenseModal from './AddExpenseModal';
 import { connect } from 'react-redux';
 import { showModal } from '../actions/ShowModal';
@@ -18,7 +16,6 @@ class AddExpense extends React.Component {
       }
 
     render() {
-        console.log(this.props.showModal);
         return (
         <div>
            <Button
@@ -39,18 +36,14 @@ class AddExpense extends React.Component {
 
 // Retrieving state from redux that is managed by reducers.
 
-const mapStateToProps = state => {
-    return {
-      showModal: state.showModal
-    };
-};
+const mapStateToProps = state => ({
+    showModal: state.showModal
+});
 
 // Retrieving action creators from redux so they can be dispatched on props call
 
-const mapDispatchToProps = dispatch => {
-    return {
-      toggleModalStatus: modalStatus => dispatch(showModal(modalStatus))
-    };
-  };
+const mapDispatchToProps = dispatch => ({
+    toggleModalStatus: modalStatus => dispatch(showModal(modalStatus))
+  });
 
-  export default connect(mapStateToProps, mapDispatchToProps)(AddExpense);
+export default connect(mapStateToProps, mapDispatchToProps)(AddExpense);

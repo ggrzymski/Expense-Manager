@@ -1,35 +1,132 @@
 import React from 'react';
 import Modal from 'react-modal';
 import '../css/Modal.css';
-import { Button, Glyphicon } from 'react-bootstrap';
-
+import { Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { showModal } from '../actions/ShowModal';
+import axios from 'axios';
 
 class AddExpenseModal extends React.Component {
     constructor(props) {
         super(props);
-        
         this.state = {
-            modalIsOpen: false
-        };
-
-        this.closeModal = this.closeModal.bind(this);
-        this.buildMonthMenu = this.buildMonthMenu.bind(this);
+          description: '',
+          year: '2016',
+          amount: 0,
+          month: 'Jan',
+          confirmSubmission: false
+        }
     }
     
     componentWillMount() {
         Modal.setAppElement('body');
     }
 
-    closeModal() {
-        this.setState({ modalIsOpen: false});
-    }
+    closeModal = () => {
+      this.props.toggleModalStatus(false);
+    };
 
-    buildMonthMenu() {
+    handleTextChange = (e) => {
+
+      const description = "description";
+      const amount = "amount";
+
+      switch(e.target.name) {
+        case description: {
+          this.setState({
+            description: e.target.value
+          });
+          break;
+        }
+        case amount: {
+          this.setState({
+            amount: e.target.value
+          });
+          break;
+        }
+          default:
+            return e.target.value 
+      }
+    };
+
+    handleSelectChange = (e) => {
+      const year = "year";
+      const month = "month";
+
+      switch(e.target.name) {
+        case year: {
+          this.setState({
+            year: e.target.value
+          });
+          break;
+        }
+        case month: {
+          this.setState({
+            month: e.target.value
+          });
+          break;
+        }
+        default:
+          return e.target.value;
+      }
+    };
+
+    handleSubmitExpense = (e) => {
+      axios.post('/addExpense', {
+        description: this.state.description,
+        amount: this.state.amount,
+        year: this.state.year,
+        month: this.state.month
+      })
+      .then(response => {
+        this.setState({ confirmSubmission : response.data});
+      })
+      .catch(error => console.log(error));
+    };
+
+    displayExpenseModal = () => {
+      return (
+      <div>
+          <Modal
+          isOpen={this.props.isOpen}
+          onRequestClose={this.closeModal}
+          contentLabel="Expense Modal"
+          className="Modal"
+          >
+            <Button bsStyle="danger" bsSize="small" onClick={this.closeModal} >
+              <span className="closebtn glyphicon glyphicon-remove"></span>
+            </Button>
+            <div>
+              <fieldset>
+                <label htmlFor="description">Description</label>
+                <input type="text" id="description" name="description" 
+                  onChange={this.handleTextChange}>
+                </input>
+                <label htmlFor="amount">Amount</label>
+                <input type="text" id="amount" name="amount" 
+                  onChange={this.handleTextChange}>
+                </input>
+                {this.buildMonthMenu()}
+                {this.buildYearMenu()}
+              </fieldset>
+            </div>
+            <div className="button-center">
+              <Button bsStyle="success" bsSize="small" 
+                onClick={this.handleSubmitExpense}>
+                Add New Expense
+              </Button>
+            </div>
+          </Modal>
+      </div>
+      );
+    };
+
+    buildMonthMenu = () => {
       return (
         <div>
           <label htmlFor="month">Month</label>
-          <select id="month" name="month">
-            <option value="Jan" id="Jan">January</option>
+          <select id="month" name="month" onChange={this.handleSelectChange}>
+            <option value="{this.state.month}" id="Jan">January</option>
             <option value="Feb" id="Feb">February</option>
             <option value="Mar" id="Mar">March</option>
             <option value="Apr" id="Apr">April</option>
@@ -44,52 +141,37 @@ class AddExpenseModal extends React.Component {
           </select>
         </div>
       );
-    }
+    };
 
-    buildYearMenu() {
+    buildYearMenu = () => {
       return (
         <div>
           <label htmlFor="year">Year</label>
-          <select id="year" name="year">
-            <option value='2016' id="16">2016</option>
+          <select id="year" name="year" onChange={this.handleSelectChange}>
+            <option value='{this.state.year}' id="16">2016</option>
             <option value='2017' id="17">2017</option>
             <option value='2018' id="18">2018</option>
             <option value='2019' id="19">2019</option>
           </select>
         </div>
       );
-    }
+    };
 
     render() {
         return (
-            <div>
-                <Modal
-                isOpen={this.props.isOpen}
-                onRequestClose={this.closeModal}
-                contentLabel="Expense Modal"
-                className="Modal"
-                >
-                  <Button bsStyle="danger" bsSize="small" >
-                    <span className="closebtn glyphicon glyphicon-remove"></span>
-                  </Button>
-                  <div>
-                    <fieldset>
-                      <label htmlFor="description">Description</label>
-                      <input type="text" id="description" name="description"
-                      ></input>
-                      <label htmlFor="amount">Amount</label>
-                      <input type="text" id="amount" name="amount"></input>
-                      {this.buildMonthMenu()}
-                      {this.buildYearMenu()}
-                    </fieldset>
-                  </div>
-                  <div className="button-center">
-                    <Button bsStyle="success" bsSize="small">Add New Expense</Button>
-                  </div>
-                </Modal>
-            </div>
+          <div>
+            { this.state.confirmSubmission ? console.log('gregish') : this.displayExpenseModal()}
+          </div>
         );
     }
 }
 
-export default AddExpenseModal;
+const mapStateToProps = state => ({
+    showModal: state.showModal
+});
+
+const mapDispatchToProps = dispatch => ({
+    toggleModalStatus: modalStatus => dispatch(showModal(modalStatus))
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddExpenseModal);
