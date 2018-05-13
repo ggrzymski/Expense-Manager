@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { showModal } from '../actions/ShowModal';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class AddExpenseModal extends React.Component {
     constructor(props) {
@@ -79,7 +80,8 @@ class AddExpenseModal extends React.Component {
         month: this.state.month
       })
       .then(response => {
-        this.setState({ confirmSubmission : response.data});
+        //this.setState({ confirmSubmission : response.data});
+        this.props.toggleModalStatus(false);
       })
       .catch(error => console.log(error));
     };
@@ -93,9 +95,11 @@ class AddExpenseModal extends React.Component {
           contentLabel="Expense Modal"
           className="Modal"
           >
+          <Link to='/'>
             <Button bsStyle="danger" bsSize="small" onClick={this.closeModal} >
               <span className="closebtn glyphicon glyphicon-remove"></span>
             </Button>
+          </Link>
             <div>
               <fieldset>
                 <label htmlFor="description">Description</label>
@@ -111,10 +115,12 @@ class AddExpenseModal extends React.Component {
               </fieldset>
             </div>
             <div className="button-center">
+            <Link to='/'>
               <Button bsStyle="success" bsSize="small" 
                 onClick={this.handleSubmitExpense}>
                 Add New Expense
               </Button>
+              </Link>
             </div>
           </Modal>
       </div>
