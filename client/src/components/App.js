@@ -12,37 +12,55 @@ class App extends React.Component {
       selectedYear: 2018,
       data: []
     };
-    this.getData = this.getData.bind(this);
   }
 
-  getData(event,year) {
-    axios.get('/getAll?month=All&year='+year)
-    .then(response =>{
-      event.setState({
-
-      });
+  getExpenseData = () => {
+    axios.get('/getExpenseData')
+    .then(response => {
+      this.setState({ data: response.data });
     });
   }
+
+  componentDidMount() {
+    this.getExpenseData();
+  }
+
+  componentDidUpdate() {
+    this.getExpenseData();
+  }
+
+  displayExpenseData = () => {
+    const results = this.state.data.map( (x, index) =>{
+      return (
+        <tr key={index}>
+          <td className="expense-cell">{x.description}</td>
+          <td className="expense-cell">{x.amount}</td>
+          <td className="expense-cell">{x.month}</td>
+          <td className="expense-cell">{x.year}</td>
+        </tr>
+      );
+    });
+
+    return results;
+  };
 
   render() {
     return (
       <div>
-        <h1>Expense Manager</h1>
-        <div>
+        <h1 align="center">Expense Manager</h1>
           <AddExpense />
-        </div>
         <div>
-          <table>
+          <table className="center">
             <thead>
               <tr>
-                <th></th>
-                <th className="desc-col">Description</th>
-                <th className="button-col">Amount</th>
-                <th className="button-col">Month</th>
-                <th className="button-col">Year</th>
+                <th className="expense-header">Description</th>
+                <th className="expense-header">Amount</th>
+                <th className="expense-header">Month</th>
+                <th className="expense-header">Year</th>
               </tr>
             </thead>
             <tbody>
+              {this.displayExpenseData()}
             </tbody>
           </table>
         </div>

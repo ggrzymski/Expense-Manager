@@ -25,6 +25,7 @@ class AddExpenseModal extends React.Component {
 
     closeModal = () => {
       this.props.toggleModalStatus(false);
+      this.setState({ confirmSubmission : false});
     };
 
     handleTextChange = (e) => {
@@ -80,10 +81,26 @@ class AddExpenseModal extends React.Component {
         month: this.state.month
       })
       .then(response => {
-        //this.setState({ confirmSubmission : response.data});
-        this.props.toggleModalStatus(false);
+        this.setState({ confirmSubmission : response.data});
       })
       .catch(error => console.log(error));
+    };
+
+    displaySuccessModal = () => {
+      return (
+        <div>
+          <Modal isOpen={this.props.isOpen} onRequestClose={this.closeModal}
+            contentLabel="Confirmation Modal" className="Modal">
+            <div className='button-center'>
+              <h3>Expense Successfully Added</h3>
+              <Button bsStyle="success" bsSize="small" 
+                onClick={this.closeModal}>
+                Close the Dialog
+              </Button>
+            </div>
+          </Modal>
+        </div>
+      );
     };
 
     displayExpenseModal = () => {
@@ -166,7 +183,7 @@ class AddExpenseModal extends React.Component {
     render() {
         return (
           <div>
-            { this.state.confirmSubmission ? console.log('gregish') : this.displayExpenseModal()}
+            { this.state.confirmSubmission ? this.displaySuccessModal() : this.displayExpenseModal()}
           </div>
         );
     }

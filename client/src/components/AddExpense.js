@@ -18,14 +18,16 @@ class AddExpense extends React.Component {
     render() {
         return (
         <div>
-           <Button
-               bsStyle="primary"
-               bsSize="small"
-               onClick={this.openModal}
-            >
-            <Glyphicon glyph="glyphicon glyphicon-plus" />
-            Add Expense
-           </Button>
+           <div className="expense-button">
+            <Button
+                bsStyle="primary"
+                bsSize="small"
+                onClick={this.openModal}
+                >
+                <Glyphicon glyph="glyphicon glyphicon-plus" />
+                Add Expense
+            </Button>
+           </div>
            <div>
              <AddExpenseModal isOpen={this.props.showModal} />
            </div>

@@ -26,6 +26,15 @@ router.post('/addExpense', (req,res) => {
     });
 });
 
+router.get('/getExpenseData', (req,res) => {
+    ExpenseModel.find({}, (err, expenses) => {
+        if(err) {
+            res.send(err);
+        }
+        res.json(expenses);
+    });
+});
+
 router.get('/api/hello', (req, res) => {
     res.send({ express: 'Hello From Express' });
   })

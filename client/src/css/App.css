@@ -3,10 +3,25 @@
   text-align: center;
 }
 
-.desc-col {
-  width: 300px;
+th.expense-header {
+  text-align: center;
+  width: 200px;
+}
+
+td.expense-cell {
+  text-align: center;
+}
+
+.expense-button {
+  margin-top: 20px;
+  margin-bottom: 15px;
   text-align: left;
 }
+
+ table.center {
+   margin-left: auto;
+   margin-right: auto;
+ }
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
