@@ -1,22 +1,23 @@
 const initialState = {
-  showModal: false
+  showExpenseModal: false,
+  showUpdateModal: false
 };
 
-const showModalReducer = (state = initialState, action) => {
+const showExpenseModalReducer = (state = initialState, action) => {
   switch(action.type) {
-    case 'SHOW_MODAL':
+    case 'ADD_EXPENSE_MODAL':
       return {
         ...state,
-        showModal: action.toggleModalOn
+        showExpenseModal: action.toggleModalOn
       }
-    case 'HIDE_MODAL':
+    case 'UPDATE_MODAL':
       return {
         ...state,
-        showModal: action.toggleModalOn
+        showUpdateModal: action.toggleModalOn
       }
       default:
       return state;
   }
 };
 
-export default showModalReducer;
+export default showExpenseModalReducer;

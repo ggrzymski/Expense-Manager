@@ -3,16 +3,16 @@ import { Button, Glyphicon } from 'react-bootstrap';
 //import { Link } from 'react-router-dom';
 import AddExpenseModal from './AddExpenseModal';
 import { connect } from 'react-redux';
-import { showModal } from '../actions/ShowModal';
+import { expenseModal } from '../actions/ShowModal';
 
 class AddExpense extends React.Component {
     constructor(props) {
         super(props);
-        this.openModal = this.openModal.bind(this);
+        this.openExpenseModal = this.openExpenseModal.bind(this);
     }
 
-    openModal() {
-        this.props.toggleModalStatus(true);
+    openExpenseModal() {
+        this.props.toggleExpenseModalStatus(true);
       }
 
     render() {
@@ -22,14 +22,14 @@ class AddExpense extends React.Component {
             <Button
                 bsStyle="primary"
                 bsSize="small"
-                onClick={this.openModal}
+                onClick={this.openExpenseModal}
                 >
                 <Glyphicon glyph="glyphicon glyphicon-plus" />
                 Add Expense
             </Button>
            </div>
            <div>
-             <AddExpenseModal isOpen={this.props.showModal} />
+             <AddExpenseModal isOpen={this.props.expenseModal} />
            </div>
         </div>
         );
@@ -39,13 +39,13 @@ class AddExpense extends React.Component {
 // Retrieving state from redux that is managed by reducers.
 
 const mapStateToProps = state => ({
-    showModal: state.showModal
+    expenseModal: state.showExpenseModal
 });
 
 // Retrieving action creators from redux so they can be dispatched on props call
 
 const mapDispatchToProps = dispatch => ({
-    toggleModalStatus: modalStatus => dispatch(showModal(modalStatus))
+    toggleExpenseModalStatus: modalStatus => dispatch(expenseModal(modalStatus))
   });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddExpense);

@@ -2,6 +2,7 @@ import React from 'react';
 import AddExpense from './AddExpense';
 import '../css/App.css';
 import axios from 'axios';
+import { Button, Glyphicon } from 'react-bootstrap';
 
 class App extends React.Component {
 
@@ -19,7 +20,7 @@ class App extends React.Component {
     .then(response => {
       this.setState({ data: response.data });
     });
-  }
+  };
 
   componentDidMount() {
     this.getExpenseData();
@@ -29,6 +30,14 @@ class App extends React.Component {
     this.getExpenseData();
   }
 
+  createUpdateButton = () =>{
+    return (
+      <Button bsStyle="info" bsSize="small">
+        <Glyphicon glyph="glyphicon glyphicon-edit" />
+      </Button>
+    );
+  };
+
   displayExpenseData = () => {
     const results = this.state.data.map( (x, index) =>{
       return (
@@ -37,6 +46,7 @@ class App extends React.Component {
           <td className="expense-cell">{x.amount}</td>
           <td className="expense-cell">{x.month}</td>
           <td className="expense-cell">{x.year}</td>
+          <td className="expense-cell">{this.createUpdateButton()}</td>
         </tr>
       );
     });
@@ -57,6 +67,7 @@ class App extends React.Component {
                 <th className="expense-header">Amount</th>
                 <th className="expense-header">Month</th>
                 <th className="expense-header">Year</th>
+                <th className="expense-header">Update</th>
               </tr>
             </thead>
             <tbody>

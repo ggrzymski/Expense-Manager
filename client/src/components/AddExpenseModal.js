@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import '../css/Modal.css';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { showModal } from '../actions/ShowModal';
+import { expenseModal } from '../actions/ShowModal';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -23,8 +23,8 @@ class AddExpenseModal extends React.Component {
         Modal.setAppElement('body');
     }
 
-    closeModal = () => {
-      this.props.toggleModalStatus(false);
+    closeExpenseModal = () => {
+      this.props.toggleExpenseModalStatus(false);
       this.setState({ confirmSubmission : false});
     };
 
@@ -89,12 +89,12 @@ class AddExpenseModal extends React.Component {
     displaySuccessModal = () => {
       return (
         <div>
-          <Modal isOpen={this.props.isOpen} onRequestClose={this.closeModal}
+          <Modal isOpen={this.props.isOpen} onRequestClose={this.closeExpenseModal}
             contentLabel="Confirmation Modal" className="Modal">
             <div className='button-center'>
               <h3>Expense Successfully Added</h3>
               <Button bsStyle="success" bsSize="small" 
-                onClick={this.closeModal}>
+                onClick={this.closeExpenseModal}>
                 Close the Dialog
               </Button>
             </div>
@@ -108,12 +108,12 @@ class AddExpenseModal extends React.Component {
       <div>
           <Modal
           isOpen={this.props.isOpen}
-          onRequestClose={this.closeModal}
+          onRequestClose={this.closeExpenseModal}
           contentLabel="Expense Modal"
           className="Modal"
           >
           <Link to='/'>
-            <Button bsStyle="danger" bsSize="small" onClick={this.closeModal} >
+            <Button bsStyle="danger" bsSize="small" onClick={this.closeExpenseModal} >
               <span className="closebtn glyphicon glyphicon-remove"></span>
             </Button>
           </Link>
@@ -190,11 +190,11 @@ class AddExpenseModal extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    showModal: state.showModal
+    expenseModal: state.showExpenseModal
 });
 
 const mapDispatchToProps = dispatch => ({
-    toggleModalStatus: modalStatus => dispatch(showModal(modalStatus))
+    toggleExpenseModalStatus: modalStatus => dispatch(expenseModal(modalStatus))
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(AddExpenseModal);
