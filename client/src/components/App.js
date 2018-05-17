@@ -3,6 +3,9 @@ import AddExpense from './AddExpense';
 import '../css/App.css';
 import axios from 'axios';
 import { Button, Glyphicon } from 'react-bootstrap';
+import ExpenseModal from './AddExpenseModal';
+import { updateModal, updateTable } from '../actions/ShowModal';
+import { connect } from 'react-redux';
 
 class App extends React.Component {
 
@@ -27,15 +30,14 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
-    this.getExpenseData();
+     if(this.props.refreshTable) {
+       this.getExpenseData();
+       this.props.toggleRefreshDisplayStatus(false);
+     }
   }
 
-  createUpdateButton = () =>{
-    return (
-      <Button bsStyle="info" bsSize="small">
-        <Glyphicon glyph="glyphicon glyphicon-edit" />
-      </Button>
-    );
+  setUpdateModalStatus = () =>{
+    this.props.toggleUpdateModalStatus(true);
   };
 
   displayExpenseData = () => {
@@ -46,7 +48,11 @@ class App extends React.Component {
           <td className="expense-cell">{x.amount}</td>
           <td className="expense-cell">{x.month}</td>
           <td className="expense-cell">{x.year}</td>
-          <td className="expense-cell">{this.createUpdateButton()}</td>
+          <td className="expense-cell">
+            <Button bsStyle="info" bsSize="small" onClick={this.setUpdateModalStatus} >
+              <Glyphicon glyph="glyphicon glyphicon-edit" />
+            </Button>
+          </td>
         </tr>
       );
     });
@@ -59,6 +65,7 @@ class App extends React.Component {
       <div>
         <h1 align="center">Expense Manager</h1>
           <AddExpense />
+          <ExpenseModal api="updateExpense" isOpen={this.props.updateModal} />
         <div>
           <table className="center">
             <thead>
@@ -80,4 +87,16 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  updateModal: state.showUpdateModal,
+  refreshTable: state.refreshTableStatus
+});
+
+// Retrieving action creators from redux so they can be dispatched on props call
+
+const mapDispatchToProps = dispatch => ({
+  toggleUpdateModalStatus: modalStatus => dispatch(updateModal(modalStatus)),
+  toggleRefreshDisplayStatus: toggleDisplayStatus => dispatch(updateTable(toggleDisplayStatus))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Glyphicon } from 'react-bootstrap';
-//import { Link } from 'react-router-dom';
 import AddExpenseModal from './AddExpenseModal';
 import { connect } from 'react-redux';
 import { expenseModal } from '../actions/ShowModal';
@@ -29,7 +28,7 @@ class AddExpense extends React.Component {
             </Button>
            </div>
            <div>
-             <AddExpenseModal isOpen={this.props.expenseModal} />
+             <AddExpenseModal api="addExpense" isOpen={this.props.expenseModal} />
            </div>
         </div>
         );
@@ -39,13 +38,13 @@ class AddExpense extends React.Component {
 // Retrieving state from redux that is managed by reducers.
 
 const mapStateToProps = state => ({
-    expenseModal: state.showExpenseModal
+    expenseModal: state.showExpenseModal,
 });
 
 // Retrieving action creators from redux so they can be dispatched on props call
 
 const mapDispatchToProps = dispatch => ({
-    toggleExpenseModalStatus: modalStatus => dispatch(expenseModal(modalStatus))
+    toggleExpenseModalStatus: modalStatus => dispatch(expenseModal(modalStatus)),
   });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddExpense);

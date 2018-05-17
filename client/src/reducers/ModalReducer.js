@@ -1,6 +1,7 @@
 const initialState = {
   showExpenseModal: false,
-  showUpdateModal: false
+  showUpdateModal: false,
+  refreshTableStatus: false
 };
 
 const showExpenseModalReducer = (state = initialState, action) => {
@@ -15,6 +16,12 @@ const showExpenseModalReducer = (state = initialState, action) => {
         ...state,
         showUpdateModal: action.toggleModalOn
       }
+    case 'UPDATE_TABLE':
+      return {
+        ...state,
+        refreshTableStatus: action.refreshDisplayStatus
+      }
+
       default:
       return state;
   }

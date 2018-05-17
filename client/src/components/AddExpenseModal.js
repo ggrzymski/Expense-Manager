@@ -3,11 +3,11 @@ import Modal from 'react-modal';
 import '../css/Modal.css';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { expenseModal } from '../actions/ShowModal';
+import { expenseModal, updateModal, updateTable } from '../actions/ShowModal';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-class AddExpenseModal extends React.Component {
+class ExpenseModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,7 +24,9 @@ class AddExpenseModal extends React.Component {
     }
 
     closeExpenseModal = () => {
+      this.props.toggleUpdateModalStatus(false);
       this.props.toggleExpenseModalStatus(false);
+      this.props.toggleRefreshDisplayStatus(true);
       this.setState({ confirmSubmission : false});
     };
 
@@ -74,21 +76,24 @@ class AddExpenseModal extends React.Component {
     };
 
     handleSubmitExpense = (e) => {
-      axios.post('/addExpense', {
-        description: this.state.description,
-        amount: this.state.amount,
-        year: this.state.year,
-        month: this.state.month
-      })
-      .then(response => {
-        this.setState({ confirmSubmission : response.data});
-      })
-      .catch(error => console.log(error));
+      if(this.props.api === "addExpense") {
+        axios.post('/addExpense', {
+          description: this.state.description,
+          amount: this.state.amount,
+          year: this.state.year,
+          month: this.state.month
+        })
+        .then(response => {
+          this.setState({ confirmSubmission : response.data});
+        })
+        .catch(error => console.log(error));
+      }
     };
 
     displaySuccessModal = () => {
       return (
         <div>
+        <Link to='/'>
           <Modal isOpen={this.props.isOpen} onRequestClose={this.closeExpenseModal}
             contentLabel="Confirmation Modal" className="Modal">
             <div className='button-center'>
@@ -99,6 +104,7 @@ class AddExpenseModal extends React.Component {
               </Button>
             </div>
           </Modal>
+        </Link>
         </div>
       );
     };
@@ -132,12 +138,10 @@ class AddExpenseModal extends React.Component {
               </fieldset>
             </div>
             <div className="button-center">
-            <Link to='/'>
               <Button bsStyle="success" bsSize="small" 
                 onClick={this.handleSubmitExpense}>
                 Add New Expense
               </Button>
-              </Link>
             </div>
           </Modal>
       </div>
@@ -190,11 +194,14 @@ class AddExpenseModal extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    expenseModal: state.showExpenseModal
+    expenseModal: state.showExpenseModal,
+    updateModal: state.showUpdateModal
 });
 
 const mapDispatchToProps = dispatch => ({
-    toggleExpenseModalStatus: modalStatus => dispatch(expenseModal(modalStatus))
+    toggleExpenseModalStatus: modalStatus => dispatch(expenseModal(modalStatus)),
+    toggleUpdateModalStatus: modalStatus => dispatch(updateModal(modalStatus)),
+    toggleRefreshDisplayStatus: toggleDisplayStatus => dispatch(updateTable(toggleDisplayStatus))
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(AddExpenseModal);
+export default connect(mapStateToProps,mapDispatchToProps)(ExpenseModal);
