@@ -89,6 +89,16 @@ class ExpenseModal extends React.Component {
         })
         .catch(error => console.log(error));
       }
+      else if(this.props.api === "updateExpense") {
+        axios.put(`/updateExpense/${this.props.expenseId}`, {
+          description: this.state.description,
+          amount: this.state.amount,
+          year: this.state.year,
+          month: this.state.month
+        })
+        .then(response => this.setState({ confirmSubmission : response.data}))
+        .catch(error => console.log(error));
+      }
     };
 
     displaySuccessModal = () => {

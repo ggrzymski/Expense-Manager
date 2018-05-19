@@ -37,6 +37,22 @@ router.get('/getExpenseData', (req,res) => {
     });
 });
 
+router.put('/updateExpense/:id' , (req,res) =>{
+    let expense = new ExpenseModel();
+    expense.description = req.body.description;
+    expense.amount = req.body.amount;
+    expense.month = req.body.month;
+    expense.year = req.body.year;
+    
+    ExpenseModel.update({_id: req.params.id}, expense, (err,raw) => {
+        if(err) {
+            res.send(err);
+        }
+
+        res.send(raw);
+    });
+});
+
 router.get('/api/hello', (req, res) => {
     res.send({ express: 'Hello From Express' });
   })
