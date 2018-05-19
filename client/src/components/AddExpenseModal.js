@@ -164,7 +164,7 @@ class ExpenseModal extends React.Component {
         <div>
           <label htmlFor="month">Month</label>
           <select id="month" name="month" onChange={this.handleSelectChange}>
-            <option value="{this.state.month}" id="Jan">January</option>
+            <option value="Jan" id="Jan">January</option>
             <option value="Feb" id="Feb">February</option>
             <option value="Mar" id="Mar">March</option>
             <option value="Apr" id="Apr">April</option>
@@ -186,7 +186,7 @@ class ExpenseModal extends React.Component {
         <div>
           <label htmlFor="year">Year</label>
           <select id="year" name="year" onChange={this.handleSelectChange}>
-            <option value='{this.state.year}' id="16">2016</option>
+            <option value='2016' id="16">2016</option>
             <option value='2017' id="17">2017</option>
             <option value='2018' id="18">2018</option>
             <option value='2019' id="19">2019</option>
