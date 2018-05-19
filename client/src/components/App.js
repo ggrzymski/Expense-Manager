@@ -36,8 +36,8 @@ class App extends React.Component {
      }
   }
 
-  setUpdateModalStatus = () =>{
-    this.props.toggleUpdateModalStatus(true);
+  setUpdateModalStatus = (_uid) =>{
+    this.props.toggleUpdateModalStatus(true,_uid);
   };
 
   displayExpenseData = () => {
@@ -49,7 +49,7 @@ class App extends React.Component {
           <td className="expense-cell">{x.month}</td>
           <td className="expense-cell">{x.year}</td>
           <td className="expense-cell">
-            <Button bsStyle="info" bsSize="small" onClick={this.setUpdateModalStatus} >
+            <Button bsStyle="info" bsSize="small" onClick={() => this.setUpdateModalStatus(x._id)}>
               <Glyphicon glyph="glyphicon glyphicon-edit" />
             </Button>
           </td>
@@ -89,13 +89,13 @@ class App extends React.Component {
 
 const mapStateToProps = state => ({
   updateModal: state.showUpdateModal,
-  refreshTable: state.refreshTableStatus
+  refreshTable: state.refreshTableStatus,
 });
 
 // Retrieving action creators from redux so they can be dispatched on props call
 
 const mapDispatchToProps = dispatch => ({
-  toggleUpdateModalStatus: modalStatus => dispatch(updateModal(modalStatus)),
+  toggleUpdateModalStatus: (modalStatus,id) => dispatch(updateModal(modalStatus,id)),
   toggleRefreshDisplayStatus: toggleDisplayStatus => dispatch(updateTable(toggleDisplayStatus))
 });
 

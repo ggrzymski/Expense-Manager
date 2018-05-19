@@ -10,9 +10,10 @@ export const expenseModal = (toggleModalOn) => ({
   toggleModalOn
 }); 
 
-export const updateModal = (toggleModalOn) => ({
+export const updateModal = (toggleModalOn, uuid) => ({
   type: UPDATE_MODAL,
-  toggleModalOn
+  toggleModalOn,
+  uuid
 });
 
 export const updateTable = (refreshDisplayStatus) => ({

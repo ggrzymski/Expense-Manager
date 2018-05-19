@@ -11,6 +11,7 @@ class ExpenseModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+          _id: '',
           description: '',
           year: '2016',
           amount: 0,
@@ -140,7 +141,7 @@ class ExpenseModal extends React.Component {
             <div className="button-center">
               <Button bsStyle="success" bsSize="small" 
                 onClick={this.handleSubmitExpense}>
-                Add New Expense
+                Add Expense
               </Button>
             </div>
           </Modal>
@@ -195,7 +196,8 @@ class ExpenseModal extends React.Component {
 
 const mapStateToProps = state => ({
     expenseModal: state.showExpenseModal,
-    updateModal: state.showUpdateModal
+    updateModal: state.showUpdateModal,
+    expenseId: state.expenseId
 });
 
 const mapDispatchToProps = dispatch => ({

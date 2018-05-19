@@ -1,6 +1,7 @@
 const initialState = {
   showExpenseModal: false,
   showUpdateModal: false,
+  expenseId: "",
   refreshTableStatus: false
 };
 
@@ -14,6 +15,7 @@ const showExpenseModalReducer = (state = initialState, action) => {
     case 'UPDATE_MODAL':
       return {
         ...state,
+        expenseId: action.uuid,
         showUpdateModal: action.toggleModalOn
       }
     case 'UPDATE_TABLE':

@@ -10,9 +10,11 @@ router.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 router.use(bodyParser.json())
 
-router.post('/addExpense', (req,res) => {
+const uuidv4 = require('uuid/v4');
 
+router.post('/addExpense', (req,res) => {
     let expense = new ExpenseModel();
+    expense._id = uuidv4(); 
     expense.description = req.body.description;
     expense.amount = req.body.amount;
     expense.month = req.body.month;
