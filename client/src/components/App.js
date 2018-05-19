@@ -47,9 +47,9 @@ class App extends React.Component {
     });
   };
 
-  displayExpenseData = (selectedYear) => {
+  displayExpenseData = (selectedYear,selectedMonth) => {
     const results = this.state.data.map( (x, index) =>{
-      if(x.year === selectedYear) {
+      if(x.year === selectedYear  && x.month === selectedMonth) {
         return (
           <tr key={index}>
             <td className="expense-cell">{x.description}</td>
@@ -90,15 +90,35 @@ class App extends React.Component {
 
     const tabs = uniqueYears.map((year) => {
       return (
-        <Tab eventKey={year} key={year} title={year}></Tab>
+        <Tab eventKey={year} key={year} title={year}>
+          <Tabs activeKey={this.state.selectedMonth} onSelect={this.handleSelectMonth}
+            id="uncontrolled-tab-example">
+            <Tab eventKey="Jan" title="Jan"></Tab>
+            <Tab eventKey="Feb" title="Feb"></Tab>
+            <Tab eventKey="Mar" title="Mar"></Tab>
+            <Tab eventKey="Apr" title="Apr"></Tab>
+            <Tab eventKey="May" title="May"></Tab>
+            <Tab eventKey="Jun" title="Jun"></Tab>
+            <Tab eventKey="Jul" title="Jul"></Tab>
+            <Tab eventKey="Aug" title="Aug"></Tab>
+            <Tab eventKey="Sep" title="Sep"></Tab>
+            <Tab eventKey="Oct" title="Oct"></Tab>
+            <Tab eventKey="Nov" title="Nov"></Tab>
+            <Tab eventKey="Dec" title="Dec"></Tab>
+          </Tabs>
+        </Tab>
       );
     });
 
     return tabs;
   };
 
-  handleSelect = (key) => {
-    this.setState({ selectedYear: key });
+  handleSelectYear = (year) => {
+    this.setState({ selectedYear: year });
+  };
+
+  handleSelectMonth = (month) => {
+    this.setState({ selectedMonth: month });
   };
 
   render() {
@@ -106,7 +126,7 @@ class App extends React.Component {
       <div>
         <h1 align="center">Expense Manager</h1>
           <div>
-            <Tabs activeKey={this.state.selectedYear} onSelect={this.handleSelect}
+            <Tabs activeKey={this.state.selectedYear} onSelect={this.handleSelectYear}
               id="uncontrolled-tab-example">
               {this.getYearsforTabs()}
             </Tabs>
@@ -126,7 +146,7 @@ class App extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.displayExpenseData(this.state.selectedYear)}
+              {this.displayExpenseData(this.state.selectedYear, this.state.selectedMonth)}
             </tbody>
           </table>
         </div>
