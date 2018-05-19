@@ -49,7 +49,16 @@ router.put('/updateExpense/:id' , (req,res) =>{
             res.send(err);
         }
 
-        res.send(raw);
+        res.send(true);
+    });
+});
+
+router.delete('/deleteExpense/:id', (req,res) => {
+    ExpenseModel.deleteOne({_id: req.params.id}, (err,data) => {
+        if(err) {
+            res.send(err);
+        }
+        res.send(data);
     });
 });
 

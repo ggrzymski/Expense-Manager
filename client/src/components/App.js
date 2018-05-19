@@ -40,6 +40,13 @@ class App extends React.Component {
     this.props.toggleUpdateModalStatus(true,_uid);
   };
 
+  deleteExpense = (_uid) => {
+    axios.delete(`/deleteExpense/${_uid}`)
+    .then(response => {
+      this.props.toggleRefreshDisplayStatus(true);
+    });
+  };
+
   displayExpenseData = () => {
     const results = this.state.data.map( (x, index) =>{
       return (
@@ -50,6 +57,11 @@ class App extends React.Component {
           <td className="expense-cell">{x.year}</td>
           <td className="expense-cell">
             <Button bsStyle="info" bsSize="small" onClick={() => this.setUpdateModalStatus(x._id)}>
+              <Glyphicon glyph="glyphicon glyphicon-edit" />
+            </Button>
+          </td>
+          <td className="expense-cell">
+            <Button bsStyle="warning" bsSize="small" onClick={() => this.deleteExpense(x._id)}>
               <Glyphicon glyph="glyphicon glyphicon-edit" />
             </Button>
           </td>
@@ -75,6 +87,7 @@ class App extends React.Component {
                 <th className="expense-header">Month</th>
                 <th className="expense-header">Year</th>
                 <th className="expense-header">Update</th>
+                <th className="expense-header">Delete</th>
               </tr>
             </thead>
             <tbody>
