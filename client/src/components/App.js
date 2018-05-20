@@ -14,6 +14,7 @@ class App extends React.Component {
     this.state = {
       selectedMonth: 'Jan',
       selectedYear: 2018,
+      showAll: false,
       data: []
     };
   }
@@ -48,8 +49,12 @@ class App extends React.Component {
   };
 
   displayExpenseData = (selectedYear,selectedMonth) => {
-    const results = this.state.data.map( (x, index) =>{
-      if(x.year === selectedYear  && x.month === selectedMonth) {
+      const results = this.state.data.map( (x, index) =>{
+
+      const displayOption = this.state.showAll ? (x.year === selectedYear) 
+        : (x.year === selectedYear  && x.month === selectedMonth);
+
+      if(displayOption) {
         return (
           <tr key={index}>
             <td className="expense-cell">{x.description}</td>
@@ -93,6 +98,7 @@ class App extends React.Component {
         <Tab eventKey={year} key={year} title={year}>
           <Tabs activeKey={this.state.selectedMonth} onSelect={this.handleSelectMonth}
             id="uncontrolled-tab-example">
+            <Tab eventKey="showAll" title="Show All"></Tab>
             <Tab eventKey="Jan" title="Jan"></Tab>
             <Tab eventKey="Feb" title="Feb"></Tab>
             <Tab eventKey="Mar" title="Mar"></Tab>
@@ -118,7 +124,11 @@ class App extends React.Component {
   };
 
   handleSelectMonth = (month) => {
-    this.setState({ selectedMonth: month });
+    if(month !== "showAll") {
+      this.setState({ selectedMonth: month, showAll: false});
+    } else {
+      this.setState({selectedMonth: "", showAll: true});
+    }
   };
 
   render() {
